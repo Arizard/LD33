@@ -66,9 +66,11 @@ function state:init()
 	--TDF.AddClassToGameState( self, jumpTrigger )
 
 
-	local player = Ghost( 100, 100)
+	local player = Ghost( 100, 100, 40, 40)
 
 	TDF.AddClassToGameState( self, player )
+
+	self.player = player
 end
 
 function state:enter()
@@ -77,6 +79,38 @@ end
 
 function state:leave()
 
+end
+
+function state:keypressed( key, isRepeat )
+	if key == " " then
+
+		if self.player.possessing == false then
+
+			local foundcollider = false
+			local target = nil
+			for k,v in ipairs( self.Entities ) do
+				if v.type == "Mob" then
+					if TDF.CheckCollide( v, self.player ) then
+						foundcollider = true
+						target = v
+					end
+				end
+			end
+
+			if target then
+				target:Possess( self.player )
+				self.player.possesstarget = target
+				self.player.possessing = true
+			end
+
+		elseif self.player.possessing then
+
+			self.player.possesstarget:UnPossess()
+			self.player.possessing = false
+			self.player.possesstarget = nil
+		end
+
+	end
 end
 
 function state:update( dt )

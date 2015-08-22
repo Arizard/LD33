@@ -1,11 +1,17 @@
 Ghost = TDF.Class{
-    init = function( self, x, y)
+    init = function( self, x, y, w, h)
         self.type = "Ghost"
         self.x, self.y = x, y
         self.w, self.h = 54, 66
 
         self.dx, self.dy = 0, 0
         self.ddx, self.ddy = 0, 0
+
+        self.hitbox = {}
+        self.hitbox.x, self.hitbox.y, self.hitbox.w, self.hitbox.h = x, y, w, h
+
+        self.possessing = false
+        self.possesstarget = nil
 
         --animation
         self.image = love.graphics.newImage('assets/spritesheets/ghost.png')
@@ -62,6 +68,8 @@ function Ghost:update(dt)
 
     local cx, cy = TDF.Cam:pos()
     local mx, my = (self.x + 26 - cx)*dt*2, (self.y + 32 - cy)*dt*2 
+
+    self.hitbox.x, self.hitbox.y = self.x, self.y
     
     TDF.Cam:move( math.pow( mx, 1 ), math.pow( my, 1 ) )
 
