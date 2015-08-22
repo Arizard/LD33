@@ -92,11 +92,6 @@ TDF.Fonts.MainSmall = love.graphics.newFont("assets/fonts/Kevin Eleven.ttf", 12)
 
 TDF.Fonts.Default = love.graphics.newFont(12)
 
-TDF.Images = {}
-TDF.Images.Knight_Title = love.graphics.newImage( "assets/images/knight_title_placeholder.png" )
-TDF.Images.Ghost_Title = love.graphics.newImage( "assets/images/ghost_title_placeholder.png" )
-TDF.Images.Title_Title = love.graphics.newImage( "assets/images/game_title_placeholder.png" )
-
 TDF.Ticker = 0
 
 function love.load()

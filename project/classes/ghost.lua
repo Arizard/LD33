@@ -66,7 +66,7 @@ function Ghost:update(dt)
     if love.keyboard.isDown("left", "a") then
         self.ddx = -acc
     end
-    if not love.keyboard.isDown("left", "a") and not love.keyboard.isDown("left", "d") then
+    if not love.keyboard.isDown("left", "a") and not love.keyboard.isDown("right", "d") then
         self.ddx = 0
     end
     if love.keyboard.isDown("up", "w") then
@@ -75,7 +75,7 @@ function Ghost:update(dt)
     if love.keyboard.isDown("down", "s") then
         self.ddy = acc
     end
-    if not love.keyboard.isDown("left", "w") and not love.keyboard.isDown("left", "s") then
+    if not love.keyboard.isDown("up", "w") and not love.keyboard.isDown("down", "s") then
         self.ddy = 0
     end
 
