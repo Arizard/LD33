@@ -120,10 +120,11 @@ function love.load()
 	require( "states.ingame_test" )
 	require( "states.level01" )
 
+	require( "classes.entity" )
 	require( "classes.button" )
 	require( "classes.solid" )
 	require( "classes.ghost" )
-	require( "classes.entity" )
+	require( "classes.mob" )
 	require( "classes.hero" )
 	require( "classes.grass" )
 	require( "classes.trigger" )
@@ -136,6 +137,10 @@ function love.load()
 
 	TDF.GameState.registerEvents();
 	TDF.GameState.switch( TDF.States.Menu );
+
+    TDF.currentMusic = love.audio.newSource("assets/music/Wagon Wheel.mp3")
+    TDF.currentMusic:play()
+    TDF.currentMusic:setVolume(0.7)
 end
 
 function love.keypressed( key, isrepeat )

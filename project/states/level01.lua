@@ -29,9 +29,10 @@ function state:init()
 
 	TDF.AddClassToGameState( self, newHero )
 
-	local player = Ghost( 100,100, 20, 20 )
+	local player = Ghost( 100, 100)
 
 	TDF.AddClassToGameState( self, player )
+    TDF.AddClassToGameState( self, Mob(200, 200) )
 
 	-- create a trigger to make the jumping do the happen
 	local jumpTrigger = Trigger( 420, 576-55-2, 16, 2 )
