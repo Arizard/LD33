@@ -107,7 +107,7 @@ function love.load()
 	TDF.Timer = require( "hump.timer" )
 	TDF.Vector = require( "hump.vector" )
 	TDF.Class = require( "hump.class" )
-    anim8 = require( "anim8" )
+	anim8 = require( "anim8" )
 	
 	camera = require( "hump.camera" )
 
@@ -116,7 +116,7 @@ function love.load()
 
 	require( "states.menu" )
 	require( "states.menu2" )
-    require( "states.game" )
+	require( "states.game" )
 	require( "states.ingame_test" )
 	require( "states.level01" )
 
@@ -138,9 +138,9 @@ function love.load()
 	TDF.GameState.registerEvents();
 	TDF.GameState.switch( TDF.States.Menu );
 
-    TDF.currentMusic = love.audio.newSource("assets/music/Wagon Wheel.mp3")
-    TDF.currentMusic:play()
-    TDF.currentMusic:setVolume(0.7)
+	--TDF.currentMusic = love.audio.newSource("assets/music/Wagon Wheel.mp3")
+	--TDF.currentMusic:play()
+	--TDF.currentMusic:setVolume(0.7)
 end
 
 function love.keypressed( key, isrepeat )

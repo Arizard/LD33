@@ -29,10 +29,10 @@ function state:init()
 
 	TDF.AddClassToGameState( self, newHero )
 
-	local player = Ghost( 100, 100)
+	local newMob = Mob(500, 200, 56-20, 56-20)
 
-	TDF.AddClassToGameState( self, player )
-    TDF.AddClassToGameState( self, Mob(200, 200) )
+	newMob:SetCollisionTable( self.Solids )
+    TDF.AddClassToGameState( self, newMob )
 
 	-- create a trigger to make the jumping do the happen
 	local jumpTrigger = Trigger( 420, 576-55-2, 16, 2 )
@@ -53,7 +53,7 @@ function state:init()
 		end
 	end
 
-	TDF.AddClassToGameState( self, jumpTrigger )
+	--TDF.AddClassToGameState( self, jumpTrigger )
 
 	local jumpTrigger = Trigger( 420 + 500 + 500, 576-55-2, 16, 2 )
 
@@ -63,7 +63,12 @@ function state:init()
 		end
 	end
 
-	TDF.AddClassToGameState( self, jumpTrigger )
+	--TDF.AddClassToGameState( self, jumpTrigger )
+
+
+	local player = Ghost( 100, 100)
+
+	TDF.AddClassToGameState( self, player )
 end
 
 function state:enter()

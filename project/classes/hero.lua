@@ -21,22 +21,26 @@ function Hero:draw()
 	self.animation:draw( self.image, self.x-20, self.y-20 )
 end
 
-function Hero:OnCollide( ent1, vert, horz )
-	self.grounded = false
-	if vert then
-		self.grounded = true
-	end
-	if horz then
-		self:Jump()
-		self.dx = -10
-	end
-end
-
 function Hero:Jump()
 	if self:IsOnGround() then
 		--print("grounded and jumping")
 		self.dy = -200
+		--print( self.dx, self.dy )
 		self.grounded = false
+	end
+end
+
+function Hero:OnCollide( ent1, vert, horz )
+	--self.grounded = true
+	if vert then
+		self.grounded = true
+	end
+	if horz then
+		--print("hit wall")
+		self.dx = -10
+		self.x = self.x + self.dx/60
+
+		self:Jump()
 	end
 end
 
@@ -52,5 +56,5 @@ function Hero:Update2( dt )
 
 	self.dx = math.clamp( self.dx, -1000, 70 )
 
-	--
+	
 end

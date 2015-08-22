@@ -1,5 +1,5 @@
 ENTITY = TDF.Class{
-	init = function( self, x, y, w, h) -- a rectangular, static solid, which collides with monsters and hero (but not player, he's a ghost)
+	init = function( self, x, y, w, h ) 
 		self.type = "Entity"
 		self.x, self.y, self.w, self.h = x, y, w, h
 
@@ -39,14 +39,15 @@ function ENTITY:update( dt )
 			local collide, horz, vert = TDF.CheckCollide( v, self )
 
 			if collide and vert then
-				self.y = self.y
 				self.dy = 0
-
-				self:OnCollide( v, vert, horz )
 			end
 			if collide and horz then
+				self.lastdx = self.dx
 				self.dx = 0
 				self.x = self.x - self.dx*dt
+			end
+
+			if collide then
 				self:OnCollide( v, vert, horz )
 			end
 		end
