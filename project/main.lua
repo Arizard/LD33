@@ -108,17 +108,27 @@ function love.load()
 	TDF.Vector = require( "hump.vector" )
 	TDF.Class = require( "hump.class" )
     anim8 = require( "anim8" )
+	
+	camera = require( "hump.camera" )
+
+	TDF.Cam = camera(0,0,1,0)
+
 
 	require( "states.menu" )
 	require( "states.menu2" )
     require( "states.game" )
+	require( "states.ingame_test" )
 
-	require( "classes.button")
+	require( "classes.button" )
+	require( "classes.solid" )
 	require( "classes.ghost")
+	require( "classes.npc" )
 
 	TDF.Version = "Dank Version"
 	TDF.Authors = { "Arizard", "Rukai", "TheQuinn" }
 	TDF.dt = 0
+
+	TDF.Gravity = 98
 
 	TDF.GameState.registerEvents();
 	TDF.GameState.switch( TDF.States.Menu );
@@ -136,6 +146,9 @@ function love.keypressed( key, isrepeat )
     if key == "n" then
         TDF.GameState.switch(TDF.States.Game)
     end
+	if key == "1" then
+		TDF.GameState.switch( TDF.States.Ingame_Test )
+	end
 end
 
 
@@ -156,6 +169,7 @@ function love.draw( )
 end
 
 function love.update( dt )
+
 	TDF.dt = dt
 	TDF.Ticker = TDF.Ticker + dt -- number of seconds since program started
 end
@@ -191,4 +205,82 @@ function TDF.ClearGameStateEntities( state ) -- removes all classes from the gam
 	for k,v in ipairs( state.Entities ) do
 		state.Entities[k] = nil
 	end
+end
+
+function TDF.CheckCollide( ent1, ent2 ) -- performs AABB collision check between two entities, prerequisites are both entities have a self.hitbox table
+
+	local x1, y1, w1, h1, x2, y2, w2, h2 = ent1.hitbox.x, ent1.hitbox.y, ent1.hitbox.w, ent1.hitbox.h, ent2.hitbox.x, ent2.hitbox.y, ent2.hitbox.w, ent2.hitbox.h
+	
+	if ent1.dx then
+		x1 = x1 + ent1.dx * TDF.dt
+	end
+
+	if ent1.dy then
+		y1 = y1 + ent1.dy * TDF.dt
+	end
+
+	if ent2.dx then
+		x2 = x2 + ent2.dx * TDF.dt
+	end
+
+	if ent2.dy then
+		y2 = y2 + ent2.dy * TDF.dt
+	end
+
+	local xCheck = x1 + w1 > x2 and x1 < x2 + w2
+	local yCheck = y1 + h1 > y2 and y1 < y2 + h2
+
+	local collide = (xCheck and yCheck)
+
+	-- fire a trace outwards to check if it's possible to move in that direction
+
+	local x3 = x1 + w1/2
+	local y3 = y1 + h1/2
+	local x4 = x2 + w2/2
+	local y4 = y2 + h2/2
+
+	local ho = false
+	local ve = false
+
+	local padx = 5
+	local pady = 5
+
+	padx = math.sqrt( math.pow(math.abs( ent1.dx or 5 ),2) + math.pow(math.abs( ent2.dx or 5 ),2) )
+	pady = math.sqrt( math.pow(math.abs( ent1.dy or 5 ),2) + math.pow(math.abs( ent2.dy or 5 ),2) )
+
+	if y1 < y2 and x1 < x2 then
+		if math.abs(y1 + h1 - y2) < pady then
+			ve = true
+		elseif math.abs(x1 + w1 - x2) < padx then
+			ho = true
+		end
+	end
+
+	if y2 < y1 and x2 < x1 then
+		if math.abs(y2 + h2 - y1) < pady then
+			ve = true
+		elseif math.abs(x2 + w2 - x1) < padx then
+			ho = true
+		end
+	end
+
+	if y1 < y2 and x2 < x1 then
+		if math.abs(y1 + h1 - y2) < pady then
+			ve = true
+		elseif math.abs(x2 + w2 - x1) < padx then
+			ho = true
+		end
+	end
+
+	if y2 < y1 and x1 < x2 then
+		if math.abs(y2 + h2 - y1) < pady then
+			ve = true
+		elseif math.abs(x1 + w1 - x2) < padx then
+			ho = true
+		end
+	end
+	
+	-- vertical collision takes priority on a per-solid basis
+
+	return collide, ho, ve
 end
