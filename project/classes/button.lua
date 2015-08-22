@@ -5,6 +5,7 @@ Button = TDF.Class{
 		self.state = 0 -- 0 for open, 1 for hover, 2 for down,
 		self.down = false
 		self.text = "Button"
+		self.font = TDF.Fonts.MainMedium
 	end
 }
 
@@ -17,6 +18,7 @@ function Button:draw()
 	--end
 
 	--print("meme")
+	love.graphics.setFont( self.font )
 
 	if self.state == 0 then
 		self:DrawOpen( self.x, self.y, self.w, self.h )
@@ -25,6 +27,8 @@ function Button:draw()
 	elseif self.state == 2 then
 	    self:DrawDown( self.x, self.y, self.w, self.h )
 	end
+
+	self:DrawOverlay( self.x, self.y, self.w, self.h )
 end
 
 function Button:DrawOpen(x,y,w,h)
@@ -48,7 +52,15 @@ function Button:DisabledOverlay(x,y,w,h)
 end
 function Button:DrawOverlay(x,y,w,h)
 	love.graphics.setColor( 255,255,255 )
-	love.graphics.print(self.text, x, y)
+	love.graphics.print(self.text, x+w/2 - love.graphics.getFont():getWidth( self.text )/2, y + h/2 - love.graphics:getFont():getHeight( self.text )/2 )
+end
+
+function Button:SetFont( font )
+	self.font = font
+end
+
+function Button:SetText( str )
+	self.text = str
 end
 
 function Button:update()

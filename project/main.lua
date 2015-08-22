@@ -5,10 +5,103 @@
 TDF = {}
 TDF.States = {}
 
+TDF.Names = {
+	"Brobert",
+	"Aurelius",
+	"Lucas",
+	"Arthur",
+	"Pendleburry",
+	"Zaphod",
+	"Runalot",
+	"Michael",
+	"Ryan",
+	"Gavin",
+	"Geoffrey",
+	"Lindsay",
+	"Jack",
+	"Jeremy",
+	"Matthew",
+	"Andrew",
+	"Mitchell",
+	"Reeks",
+	"Benjamin",
+	"Jaime",
+	"Bronn",
+	"Hotpie",
+	"Fiddlesticks",
+	"Maxwell",
+	"Steve",
+	"Markus",
+	"Carlos",
+	"Peter",
+	"Phil",
+	"Stuart",
+	"Knight",
+	"Chief",
+	"Teal'c",
+	"Carter",
+	"Hammond",
+}
 
+TDF.Adjectives = {
+	"Brave",
+	"Cowardly",
+	"Fleetfooted",
+	"Lovely",
+	"Kind",
+	"Mean",
+	"Rude",
+	"Hopeless",
+	"Smart",
+	"Intelligent",
+	"Clumsy",
+	"Barely Legal",
+	"Possibly Not A Knight",
+	"Certainly Not A Knight",
+	"Dastardly",
+	"Dumb",
+	"Moronic",
+	"Fabulous",
+	"Cheater",
+	"Hacker",
+	"Unbelievable",
+	"Superfluous",
+	"Impoverished Game Developer",
+	"Crybaby",
+	"Mad",
+	"Myterious",
+	"Boring",
+	"Free Spirit",
+	"Bastard",
+	"Kingslayer",
+	"Incestuous",
+	"Dragonlover",
+	"Northerner",
+	"Australian",
+	"Politician",
+	"False God",
+	"Cultist",
+}
+
+-- fonts
+
+TDF.Fonts = {}
+TDF.Fonts.MainLarge = love.graphics.newFont("assets/fonts/Kevin Eleven.ttf", 48)
+TDF.Fonts.MainMedium = love.graphics.newFont("assets/fonts/Kevin Eleven.ttf", 18)
+TDF.Fonts.MainSmall = love.graphics.newFont("assets/fonts/Kevin Eleven.ttf", 12)
+
+TDF.Fonts.Default = love.graphics.newFont(12)
+
+TDF.Images = {}
+TDF.Images.Knight_Title = love.graphics.newImage( "assets/images/knight_title_placeholder.png" )
+TDF.Images.Ghost_Title = love.graphics.newImage( "assets/images/ghost_title_placeholder.png" )
+TDF.Images.Title_Title = love.graphics.newImage( "assets/images/game_title_placeholder.png" )
+
+TDF.Ticker = 0
 
 function love.load()
 	love.window.setTitle( "TDF - LD33" )
+	love.window.setMode( 1024, 576 )
 
 	TDF.GameState = require( "hump.gamestate" )
 	TDF.Timer = require( "hump.timer" )
@@ -20,13 +113,13 @@ function love.load()
 
 	require( "classes.button")
 
-
 	TDF.Version = "Dank Version"
 	TDF.Authors = { "Arizard", "Rukai", "TheQuinn" }
 	TDF.dt = 0
 
 	TDF.GameState.registerEvents();
 	TDF.GameState.switch( TDF.States.Menu );
+	
 end
 
 function love.keypressed( key, isrepeat )
@@ -40,9 +133,10 @@ function love.keypressed( key, isrepeat )
 end
 
 function love.draw( )
+	love.graphics.setFont( TDF.Fonts.Default )
 
 	-- debug things, these should go at the END.
-	love.graphics.setColor( 255,255,255 )
+	love.graphics.setColor( 0,255,0 )
 	local debugprints = {
 		"Framerate : "..tostring( love.timer.getFPS() ),
 		"Tickrate : "..tostring( math.ceil(1/TDF.dt) )
@@ -56,6 +150,7 @@ end
 
 function love.update( dt )
 	TDF.dt = dt
+	TDF.Ticker = TDF.Ticker + dt -- number of seconds since program started
 end
 
 
