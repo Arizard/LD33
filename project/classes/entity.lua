@@ -1,6 +1,6 @@
-NPC = TDF.Class{
+ENTITY = TDF.Class{
 	init = function( self, x, y, w, h) -- a rectangular, static solid, which collides with monsters and hero (but not player, he's a ghost)
-
+		self.type = "Entity"
 		self.x, self.y, self.w, self.h = x, y, w, h
 
 		self.col = { r = 255, g = 255, b = 255, a = 255 }
@@ -8,22 +8,22 @@ NPC = TDF.Class{
 		self.hitbox = {}
 		self.hitbox.x, self.hitbox.y, self.hitbox.w, self.hitbox.h = x, y, w, h
 
-		self.solids = {} -- a table full of solids that the npc needs to collide with, since physics are calculated inside the class.
+		self.solids = {} -- a table full of solids that the ENTITY needs to collide with, since physics are calculated inside the class.
 
 		self.dx, self.dy = 45, 0
-		self.ddx, self.ddy = 0, -TDF.Gravity
+		self.ddx, self.ddy = 0, TDF.Gravity
 
 	end
 }
 
-function NPC:SetCollisionTable( tbl )
+function ENTITY:SetCollisionTable( tbl )
 	self.solids = tbl
 end
 
-function NPC:update( dt )
+function ENTITY:update( dt )
 
 	-- check collisions
-	self.ddy = -TDF.Gravity -- gravity
+	self.ddy = TDF.Gravity -- gravity
 
 	self.dx = self.dx + self.ddx * dt
 	self.dy = self.dy + self.ddy * dt
@@ -35,10 +35,13 @@ function NPC:update( dt )
 			if collide and vert then
 				self.y = self.y
 				self.dy = 0
+
+				self:OnCollide( v, self )
 			end
 			if collide and horz then
-				self.dx = -self.dx
+				self.dx = 0
 				self.x = self.x - self.dx*dt
+				self:OnCollide( v, self )
 			end
 		end
 	end
@@ -51,12 +54,14 @@ function NPC:update( dt )
 	
 end
 
-function NPC:draw( )
+function ENTITY:draw( )
 
 	love.graphics.setColor( 0,255,255 )
 	love.graphics.rectangle( "line", self.x, self.y, self.w, self.h )
 
 end
 
---local cx, cy = TDF.Cam:pos()
---TDF.Cam:move( (self.x - cx) * dt*2, (self.y - cy) * dt )
+function ENTITY:OnCollide( ent1, ent2 )
+
+end
+

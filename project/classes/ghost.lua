@@ -1,10 +1,11 @@
 Ghost = TDF.Class{
     init = function( self, x, y)
+        self.type = "Ghost"
         self.x, self.y = x, y
         self.w, self.h = 54, 66
 
-        --velocity
-        self.vx, self.vy = 0, 0
+        self.dx, self.dy = 0, 0
+        self.ddx, self.ddy = 0, 0
 
         --animation
         self.image = love.graphics.newImage('assets/spritesheets/ghost.png')
@@ -13,33 +14,57 @@ Ghost = TDF.Class{
     end
 }
 function Ghost:draw()
+    love.graphics.setColor( 255,255,255 )
     --love.graphics.rectangle( "line", self.x, self.y, self.w, self.h )
-    self.animation:draw(self.image, self.x, self.y)
+    self.animation:draw(self.image, self.x, self.y, ( self.dx/10 ) * math.pi/180)
+
+    love.graphics.rectangle( "fill", self.x, self.y, 1, 1 )
+    love.graphics.print( tostring( math.floor( self.x ) ).." "..tostring( math.floor( self.y ) ), self.x, self.y )
 end
 
 function Ghost:update(dt)
     self.animation:update(dt)
 
-    --slow down
-    --Yo arie! These are hardcoded for my dt can you generalise the next two lines to work for all dt?
-    self.vx = self.vx / 1.01
-    self.vy = self.vy / 1.01
+    self.dx = self.dx + self.ddx * dt
+    self.dy = self.dy + self.ddy * dt
 
-    --accellerate
+    local acc = 100
+    local maxspeed = 400
+
     if love.keyboard.isDown("right", "d") then
-        self.vx = 120
+        self.ddx = acc
     end
     if love.keyboard.isDown("left", "a") then
-        self.vx = -120
+        self.ddx = -acc
+    end
+    if not love.keyboard.isDown("left", "a") and not love.keyboard.isDown("left", "d") then
+        self.ddx = 0
     end
     if love.keyboard.isDown("up", "w") then
-        self.vy = -120
+        self.ddy = -acc
     end
     if love.keyboard.isDown("down", "s") then
-        self.vy = 120
+        self.ddy = acc
+    end
+    if not love.keyboard.isDown("left", "w") and not love.keyboard.isDown("left", "s") then
+        self.ddy = 0
     end
 
-    --move
-    self.x = self.x + dt * self.vx
-    self.y = self.y + dt * self.vy
+    self.dx = math.clamp( self.dx, -maxspeed, maxspeed )
+    self.dy = math.clamp( self.dy, -maxspeed, maxspeed )
+
+    -- slow down
+    self.dx = self.dx - (self.dx*0.99*dt)
+    self.dy = self.dy - (self.dy*0.99*dt)
+
+    self.x = self.x + self.dx * dt
+    self.y = self.y + self.dy * dt
+
+    local cx, cy = TDF.Cam:pos()
+    local mx, my = (self.x + 26 - cx)*dt*2, (self.y + 32 - cy)*dt*2 
+    
+    TDF.Cam:move( math.pow( mx, 1 ), math.pow( my, 1 ) )
+
 end
+
+

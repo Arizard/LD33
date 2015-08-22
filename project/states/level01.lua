@@ -1,18 +1,17 @@
-TDF.States.Ingame_Test = {}
+TDF.States.Level01 = {}
 
-local state = TDF.States.Ingame_Test
+local state = TDF.States.Level01
 state.Entities = {}
 state.Solids = {}
 
 local levelSolids = {
-	{ 0, 300, 400, 100 },
-	{ 200, 0, 24, 1000 }
+	{ 0, 576-32, 3000, 32 }
 }
 
 function state:init()
 	
-	for k,v in ipairs( levelSolids ) do
-
+	for i = 1, #levelSolids do
+		v = levelSolids[i]
 		local newSolid = Solid( v[1],v[2],v[3],v[4] )
 
 		TDF.AddClassToGameState( self, newSolid )

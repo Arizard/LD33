@@ -111,18 +111,20 @@ function love.load()
 	
 	camera = require( "hump.camera" )
 
-	TDF.Cam = camera(0,0,1,0)
+	TDF.Cam = camera(0,0,0.5,0)
 
 
 	require( "states.menu" )
 	require( "states.menu2" )
     require( "states.game" )
 	require( "states.ingame_test" )
+	require( "states.level01" )
 
 	require( "classes.button" )
 	require( "classes.solid" )
-	require( "classes.ghost")
-	require( "classes.npc" )
+	require( "classes.ghost" )
+	require( "classes.entity" )
+	require( "classes.hero" )
 
 	TDF.Version = "Dank Version"
 	TDF.Authors = { "Arizard", "Rukai", "TheQuinn" }
@@ -135,19 +137,15 @@ function love.load()
 end
 
 function love.keypressed( key, isrepeat )
-	if key == " " then
+	if key == "2" then
 		if TDF.GameState.current() == TDF.States.Menu then
 			TDF.GameState.switch( TDF.States.Menu2 )
 		else
 			TDF.GameState.switch( TDF.States.Menu )
 		end
 	end
-
-    if key == "n" then
-        TDF.GameState.switch(TDF.States.Game)
-    end
 	if key == "1" then
-		TDF.GameState.switch( TDF.States.Ingame_Test )
+		TDF.GameState.switch( TDF.States.Level01 )
 	end
 end
 
@@ -283,4 +281,11 @@ function TDF.CheckCollide( ent1, ent2 ) -- performs AABB collision check between
 	-- vertical collision takes priority on a per-solid basis
 
 	return collide, ho, ve
+end
+
+function math.clamp( x, min, max ) -- clamp a value x
+	if x < min then x = min end
+	if x > max then x = max end
+
+	return x
 end

@@ -1,6 +1,6 @@
 Solid = TDF.Class{
 	init = function( self, x, y, w, h) -- a rectangular, static solid, which collides with monsters and hero (but not player, he's a ghost)
-		self.name = "solid"
+		self.type = "Solid"
 		self.x, self.y, self.w, self.h = x, y, w, h
 
 		self.col = { r = 255, g = 255, b = 255, a = 255 }

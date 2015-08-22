@@ -1,5 +1,6 @@
 Button = TDF.Class{
 	init = function( self, x, y, w, h )
+		self.type = "Button"
 		self.x, self.y = x, y
 		self.w, self.h = w, h
 		self.state = 0 -- 0 for open, 1 for hover, 2 for down,
