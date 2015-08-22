@@ -71,6 +71,12 @@ function state:init()
 	TDF.AddClassToGameState( self, player )
 
 	self.player = player
+
+    self.images = {}
+    local dir = "assets/images/"
+    self.images.background = love.graphics.newImage(dir .. "background.png")
+    self.images.hill = love.graphics.newImage(dir .. "hill.png")
+    self.images.bush = love.graphics.newImage(dir .. "bush.png")
 end
 
 function state:enter()
@@ -135,11 +141,15 @@ function state:draw( )
 
 	love.graphics.setColor( 190, 245, 245 )
 	love.graphics.rectangle( "fill", 0, 0, 1024, 576 )
+    love.graphics.draw(self.images.background)
+    love.graphics.draw(self.images.hill, 800, 230)
+    love.graphics.draw(self.images.hill, 400, 310)
+    love.graphics.draw(self.images.hill, 330, 310)
+    love.graphics.draw(self.images.bush)
 
 	TDF.Cam:attach()
 	--love.graphics.print("Menu State", 32, 32)
 	TDF.DrawGameStateEntities( self )
 
 	TDF.Cam:detach()
-
 end
