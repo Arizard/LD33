@@ -120,10 +120,11 @@ function love.load()
 	require( "states.ingame_test" )
 	require( "states.level01" )
 
+	require( "classes.entity" )
 	require( "classes.button" )
 	require( "classes.solid" )
 	require( "classes.ghost" )
-	require( "classes.entity" )
+	require( "classes.mob" )
 	require( "classes.hero" )
 
 	TDF.Version = "Dank Version"

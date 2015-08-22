@@ -25,9 +25,11 @@ function state:init()
 
 	TDF.AddClassToGameState( self, newHero )
 
-	local player = Ghost( 100,100, 20, 20 )
+	local player = Ghost( 100, 100)
 
 	TDF.AddClassToGameState( self, player )
+
+    TDF.AddClassToGameState( self, Mob(200, 200) )
 end
 
 function state:enter()
