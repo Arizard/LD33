@@ -13,8 +13,14 @@ ENTITY = TDF.Class{
 		self.dx, self.dy = 45, 0
 		self.ddx, self.ddy = 0, TDF.Gravity
 
+		self:Initialize()
+
 	end
 }
+
+function ENTITY:Initialize()
+
+end
 
 function ENTITY:SetCollisionTable( tbl )
 	self.solids = tbl
@@ -51,6 +57,8 @@ function ENTITY:update( dt )
 
 	self.hitbox.x, self.hitbox.y = self.x, self.y
 
+	self:Update2( dt )
+
 	
 end
 
@@ -64,4 +72,6 @@ end
 function ENTITY:OnCollide( ent1, ent2 )
 
 end
+
+function ENTITY:Update2( dt )
 
