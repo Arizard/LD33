@@ -5,21 +5,23 @@ state.Entities = {}
 state.Solids = {}
 
 local levelSolids = {
-	{ 0, 576-32, 3000, 32 }
+	{ 500, 576-197, 55*2, 55*4 },
+	{ -55*10, 576-55, 55*100, 55*10 }
+
 }
 
 function state:init()
 	
 	for i = 1, #levelSolids do
 		v = levelSolids[i]
-		local newSolid = Solid( v[1],v[2],v[3],v[4] )
+		local newSolid = Grass( v[1],v[2],v[3],v[4] )
 
 		TDF.AddClassToGameState( self, newSolid )
 		table.insert( self.Solids, newSolid )
 
 	end
 
-	local newHero = Hero( 100, 100, 32, 64 )
+	local newHero = Hero( 0, 576-102-64, 70, 107 )
 
 	newHero:SetCollisionTable( self.Solids )
 
