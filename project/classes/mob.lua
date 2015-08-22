@@ -18,6 +18,8 @@ function Mob:Initialize()
 
     self.walkspeed = 45
 
+    self.grounded = false
+
 end
 function Mob:draw()
     love.graphics.setColor( self.possessed and 0 or 255,255,255 )
@@ -32,6 +34,20 @@ function Mob:draw()
     --love.graphics.rectangle( "fill", self.hitbox.x, self.hitbox.y, self.hitbox.w, self.hitbox.h )
     --love.graphics.print( tostring( math.floor( self.x ) ).." "..tostring( math.floor( self.y ) ), self.x, self.y )
 end
+
+function Mob:IsOnGround()
+    return self.grounded
+end
+
+function Mob:Jump()
+    if self:IsOnGround() then
+        --print("grounded and jumping")
+        self.dy = -100
+        --print( self.dx, self.dy )
+        self.grounded = false
+    end
+end
+
 
 function Mob:Update2(dt)
     self.animation:update(dt)
@@ -59,6 +75,11 @@ function Mob:Update2(dt)
 end
 
 function Mob:OnCollide( ent, vert, horz )
+
+    if vert then
+        self.grounded = true
+    end
+
     if horz then
         self.dx = -self.lastdx
         self.x = self.x + self.dx * (1/60)
@@ -75,5 +96,5 @@ end
 function Mob:UnPossess( ent )
     self.possessed = false
     self.possessor = nil
-    self.dy = -100
+    self:Jump()
 end

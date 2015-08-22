@@ -132,6 +132,10 @@ function state:update( dt )
 end
 
 function state:draw( )
+
+	love.graphics.setColor( 190, 245, 245 )
+	love.graphics.rectangle( "fill", 0, 0, 1024, 576 )
+
 	TDF.Cam:attach()
 	--love.graphics.print("Menu State", 32, 32)
 	TDF.DrawGameStateEntities( self )

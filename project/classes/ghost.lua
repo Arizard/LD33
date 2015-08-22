@@ -21,6 +21,24 @@ Ghost = TDF.Class{
 }
 function Ghost:draw()
     love.graphics.setColor( 255,255,255 )
+
+
+    if self.possessing then
+        love.graphics.setColor( 0,0,0 )
+
+        local tx, ty = self.possesstarget.x + self.possesstarget.w/2, self.possesstarget.y + self.possesstarget.h/2
+        local x, y = self.x + self.w/2, self.y + self.h/2
+
+        for i = 1, 50 do
+            local frac = InverseLerp( i, 1, 50 )
+            local xp = QuadLerp( frac, x, tx )
+            local yp = QuadLerp( math.pow(frac,0.7), y, ty )
+
+            love.graphics.rectangle( "line", xp-2, yp-2, 4, 4)
+        end
+
+    end
+
     --love.graphics.rectangle( "line", self.x, self.y, self.w, self.h )
     self.animation:draw(self.image, self.x, self.y, ( self.dx/10 ) * math.pi/180)
 
@@ -60,8 +78,12 @@ function Ghost:update(dt)
     self.dy = math.clamp( self.dy, -maxspeed, maxspeed )
 
     -- slow down
-    self.dx = self.dx - (self.dx*0.99*dt)
-    self.dy = self.dy - (self.dy*0.99*dt)
+    if self.ddx == 0 then
+        self.dx = self.dx - (self.dx*0.999*dt*4)
+    end
+    if self.ddy == 0 then
+        self.dy = self.dy - (self.dy*0.999*dt*4)
+    end
 
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
