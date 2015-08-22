@@ -111,7 +111,7 @@ function love.load()
 	
 	camera = require( "hump.camera" )
 
-	TDF.Cam = camera(0,0,0.5,0)
+	TDF.Cam = camera(0,0,1,0)
 
 
 	require( "states.menu" )
@@ -125,6 +125,7 @@ function love.load()
 	require( "classes.ghost" )
 	require( "classes.entity" )
 	require( "classes.hero" )
+	require( "classes.grass" )
 
 	TDF.Version = "Dank Version"
 	TDF.Authors = { "Arizard", "Rukai", "TheQuinn" }
@@ -288,4 +289,26 @@ function math.clamp( x, min, max ) -- clamp a value x
 	if x > max then x = max end
 
 	return x
+end
+
+function love.graphics.getTileDimensions( img, x, y, w, h )
+	local iw, ih = img:getWidth(), img:getHeight()
+
+	local xrep = math.floor( w / iw )
+	local yrep = math.floor( h / ih )
+	
+	return xrep, yrep
+end
+
+function love.graphics.tileImage( img, x, y, w, h )
+
+	local iw, ih = img:getWidth(), img:getHeight()
+	local xrep, yrep = love.graphics.getTileDimensions( img, x, y, w, h )
+
+	for i = 1, xrep do
+		for j = 1, yrep do
+			love.graphics.draw( img, x + (i-1)*iw, y + (j-1)*ih )
+		end
+	end
+
 end

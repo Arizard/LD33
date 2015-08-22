@@ -28,7 +28,7 @@ function Ghost:update(dt)
     self.dx = self.dx + self.ddx * dt
     self.dy = self.dy + self.ddy * dt
 
-    local acc = 100
+    local acc = 800
     local maxspeed = 400
 
     if love.keyboard.isDown("right", "d") then

@@ -10,7 +10,7 @@ function state:init()
 	newButton:SetFont( TDF.Fonts.MainLarge )
 
 	function newButton:DoClick()
-		TDF.GameState.switch( TDF.States.Menu2 )
+		TDF.GameState.switch( TDF.States.Level01 )
 	end
 
 	TDF.AddClassToGameState( self, newButton )

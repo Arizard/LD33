@@ -42,12 +42,12 @@ function ENTITY:update( dt )
 				self.y = self.y
 				self.dy = 0
 
-				self:OnCollide( v, self )
+				self:OnCollide( v, vert, horz )
 			end
 			if collide and horz then
 				self.dx = 0
 				self.x = self.x - self.dx*dt
-				self:OnCollide( v, self )
+				self:OnCollide( v, vert, horz )
 			end
 		end
 	end
@@ -69,7 +69,7 @@ function ENTITY:draw( )
 
 end
 
-function ENTITY:OnCollide( ent1, ent2 )
+function ENTITY:OnCollide( ent1, vert, horz )
 
 end
 

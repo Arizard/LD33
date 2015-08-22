@@ -8,8 +8,12 @@ Solid = TDF.Class{
 		self.hitbox = {}
 		self.hitbox.x, self.hitbox.y, self.hitbox.w, self.hitbox.h = x, y, w, h
 
+		self:Initialize()
 	end
 }
+
+function Solid:Initialize()
+end
 
 function Solid:update( dt )
 
