@@ -47,6 +47,8 @@ function NPC:update( dt )
 	self.y = self.y + self.dy * dt
 
 	self.hitbox.x, self.hitbox.y = self.x, self.y
+
+	
 end
 
 function NPC:draw( )
@@ -55,3 +57,6 @@ function NPC:draw( )
 	love.graphics.rectangle( "line", self.x, self.y, self.w, self.h )
 
 end
+
+--local cx, cy = TDF.Cam:pos()
+--TDF.Cam:move( (self.x - cx) * dt*2, (self.y - cy) * dt )

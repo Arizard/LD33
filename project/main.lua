@@ -107,6 +107,11 @@ function love.load()
 	TDF.Timer = require( "hump.timer" )
 	TDF.Vector = require( "hump.vector" )
 	TDF.Class = require( "hump.class" )
+	
+	camera = require( "hump.camera" )
+
+	TDF.Cam = camera(0,0,1,0)
+
 
 	require( "states.menu" )
 	require( "states.menu2" )
@@ -157,6 +162,7 @@ function love.draw( )
 end
 
 function love.update( dt )
+
 	TDF.dt = dt
 	TDF.Ticker = TDF.Ticker + dt -- number of seconds since program started
 end

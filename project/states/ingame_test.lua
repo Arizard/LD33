@@ -6,7 +6,7 @@ state.Solids = {}
 
 local levelSolids = {
 	{ 75, 0, 400, 100 },
-	{ 200, 0, 24, 1030}
+	{ 200, 0, 24, 1030 }
 }
 
 function state:init()
@@ -40,7 +40,9 @@ function state:update( dt )
 end
 
 function state:draw( )
+	TDF.Cam:attach()
 	--love.graphics.print("Menu State", 32, 32)
 	TDF.DrawGameStateEntities( self )
+	TDF.Cam:detach()
 
 end
