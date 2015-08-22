@@ -25,13 +25,13 @@ function state:init()
 
 	local newHero = Hero( 0, 576-102-64, 70-40, 107-20 )
 
-	newHero:SetCollisionTable( self.Solids )
+	newHero:SetCollisionTable( self.Entities )
 
 	TDF.AddClassToGameState( self, newHero )
 
 	local newMob = Mob(500, 200, 56-20, 56-20)
 
-	newMob:SetCollisionTable( self.Solids )
+	newMob:SetCollisionTable( self.Entities )
     TDF.AddClassToGameState( self, newMob )
 
 	-- create a trigger to make the jumping do the happen
@@ -70,6 +70,8 @@ function state:init()
 
 	TDF.AddClassToGameState( self, player )
 
+	player:SetCollisionTable( self.Entities )
+
 	self.player = player
 
     self.images = {}
@@ -88,53 +90,12 @@ function state:leave()
 end
 
 function state:keypressed( key, isRepeat )
-	if key == " " then
-
-		if self.player.possessing == false then
-
-			local foundcollider = false
-			local target = nil
-			for k,v in ipairs( self.Entities ) do
-				if v.type == "Mob" then
-					if TDF.CheckCollide( v, self.player ) then
-						foundcollider = true
-						target = v
-					end
-				end
-			end
-
-			if target then
-				target:Possess( self.player )
-				self.player.possesstarget = target
-				self.player.possessing = true
-			end
-
-		elseif self.player.possessing then
-
-			self.player.possesstarget:UnPossess()
-			self.player.possessing = false
-			self.player.possesstarget = nil
-		end
-
-	end
+	self.player:keypressed( key, isRepeat )
 end
 
 function state:update( dt )
 	TDF.UpdateGameStateEntities( self, dt )
-
-	-- check trigger collisions
-	for k, v in ipairs( self.Entities ) do
-		if v.type == "Trigger" then
-			for k2, v2 in ipairs( self.Entities ) do
-				if v2.type ~= "Solid" and v2.hitbox then
-					local collide, horz, vert = TDF.CheckCollide( v, v2 )
-					if collide and v2 then
-						v:RunOnEntity( v2 )
-					end
-				end
-			end
-		end
-	end
+	
 end
 
 function state:draw( )

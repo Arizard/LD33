@@ -13,7 +13,7 @@ function Mob:Initialize()
     self.ddx = 0
 
     self.possessed = false
-    self.possessedTimer = 10
+    self.possessedTimer = 1000000
     self.possessor = nil
 
     self.walkspeed = 45

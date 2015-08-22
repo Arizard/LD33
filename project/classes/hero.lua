@@ -11,6 +11,8 @@ function Hero:Initialize()
 	self.image = love.graphics.newImage('assets/spritesheets/knight.png')
 	local g = anim8.newGrid(self.w+40, self.h+20, self.image:getWidth(), self.image:getHeight())
 	self.animation = anim8.newAnimation(g('1-7','1-2','1-5','3-3'), 0.03)
+
+
 end
 
 function Hero:IsOnGround()
@@ -18,6 +20,9 @@ function Hero:IsOnGround()
 end
 
 function Hero:draw()
+	if not self.alive then
+		love.graphics.setColor( 255,0,0, 255 )
+	end
 	self.animation:draw( self.image, self.x-20, self.y-20 )
 end
 

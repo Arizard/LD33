@@ -19,6 +19,11 @@ Ghost = TDF.Class{
         self.animation = anim8.newAnimation(g('1-8',1), 0.03)
     end
 }
+
+function Ghost:SetCollisionTable( tbl )
+    self.solids = tbl
+end
+
 function Ghost:draw()
     love.graphics.setColor( 255,255,255 )
 
@@ -92,9 +97,56 @@ function Ghost:update(dt)
     local mx, my = (self.x + 26 - cx)*dt*2, (self.y + 32 - cy)*dt*2 
 
     self.hitbox.x, self.hitbox.y = self.x, self.y
+
+    if self.possessing then
+        local dist = math.sqrt( math.pow( self.x + 26 - self.possesstarget.x + self.possesstarget.w/2, 2) + math.pow( self.y + 32 - self.possesstarget.y + self.possesstarget.h/2, 2) ) 
+
+        if dist > 400 then
+            local frac = math.clamp( InverseLerp( dist, 400, 500 ), 0, 1 )
+
+            local ang = math.atan2( self.possesstarget.y + self.possesstarget.h/2 - self.y + 32, self.possesstarget.x + self.possesstarget.w/2 - self.x + 26 ) * 180/math.pi
+
+            print( ang )
+
+            self.dx = self.dx - math.cos( ang ) * frac * 12000 * dt
+            self.dy = self.dy - math.sin( ang ) * frac * 12000 * dt
+        end
+    end
     
     TDF.Cam:move( math.pow( mx, 1 ), math.pow( my, 1 ) )
 
+end
+
+function Ghost:keypressed( key, isRepeat )
+    if key == " " then
+
+        if self.possessing == false then
+
+            local foundcollider = false
+            local target = nil
+            for k,v in ipairs( self.solids ) do
+                if v.type == "Mob" then
+                    if TDF.CheckCollide( v, self ) then
+                        foundcollider = true
+                        target = v
+                    end
+                end
+            end
+
+            if target then
+                target:Possess( self )
+                self.possesstarget = target
+                self.possessing = true
+            end
+
+        elseif self.possessing then
+
+            self.possesstarget:UnPossess()
+            self.possessing = false
+            self.possesstarget = nil
+        end
+
+    end
 end
 
 
