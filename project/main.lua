@@ -107,6 +107,7 @@ function love.load()
 	TDF.Timer = require( "hump.timer" )
 	TDF.Vector = require( "hump.vector" )
 	TDF.Class = require( "hump.class" )
+    anim8 = require( "anim8" )
 	
 	camera = require( "hump.camera" )
 
@@ -115,10 +116,12 @@ function love.load()
 
 	require( "states.menu" )
 	require( "states.menu2" )
+    require( "states.game" )
 	require( "states.ingame_test" )
 
 	require( "classes.button" )
 	require( "classes.solid" )
+	require( "classes.ghost")
 	require( "classes.npc" )
 
 	TDF.Version = "Dank Version"
@@ -129,7 +132,6 @@ function love.load()
 
 	TDF.GameState.registerEvents();
 	TDF.GameState.switch( TDF.States.Menu );
-	
 end
 
 function love.keypressed( key, isrepeat )
@@ -140,10 +142,15 @@ function love.keypressed( key, isrepeat )
 			TDF.GameState.switch( TDF.States.Menu )
 		end
 	end
+
+    if key == "n" then
+        TDF.GameState.switch(TDF.States.Game)
+    end
 	if key == "1" then
 		TDF.GameState.switch( TDF.States.Ingame_Test )
 	end
 end
+
 
 function love.draw( )
 	love.graphics.setFont( TDF.Fonts.Default )
