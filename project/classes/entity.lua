@@ -15,6 +15,7 @@ ENTITY = TDF.Class{
 
 		self:Initialize()
 
+		self.alive = true
 	end
 }
 
@@ -35,7 +36,7 @@ function ENTITY:update( dt )
 	self.dy = self.dy + self.ddy * dt
 
 	for k,v in ipairs( self.solids ) do
-		if v.hitbox and v.type == "Solid" then
+		if v.hitbox and v.type == "Solid" and self.alive then
 			local collide, horz, vert = TDF.CheckCollide( v, self )
 
 			if collide and vert then
@@ -49,6 +50,22 @@ function ENTITY:update( dt )
 
 			if collide then
 				self:OnCollide( v, vert, horz )
+			end
+		end
+
+		if v.hitbox and v.type == "Trigger" and self.alive then
+			local collide, horz, vert = TDF.CheckCollide( v, self )
+
+			if collide then
+				v:RunOnEntity( self )
+			end
+		end
+
+		if v.hitbox and v.type == "Mob" and self.alive and v ~= self then
+			local collide, horz, vert = TDF.CheckCollide( v, self )
+
+			if collide then
+				self:Kill()
 			end
 		end
 	end
@@ -77,3 +94,8 @@ end
 function ENTITY:Update2( dt )
 
 end
+
+function ENTITY:Kill()
+	self.alive = false
+end
+
