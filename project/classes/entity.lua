@@ -35,7 +35,7 @@ function ENTITY:update( dt )
 	self.dy = self.dy + self.ddy * dt
 
 	for k,v in ipairs( self.solids ) do
-		if v.hitbox then
+		if v.hitbox and v.type == "Solid" then
 			local collide, horz, vert = TDF.CheckCollide( v, self )
 
 			if collide and vert then

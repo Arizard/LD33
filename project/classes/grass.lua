@@ -1,4 +1,4 @@
-Grass = Solid
+Grass = TDF.Class{ __includes = {Solid} }
 
 Grass.tiles = {}
 Grass.tiles.top = love.graphics.newImage( "assets/images/ground/grassTile0001.png" )

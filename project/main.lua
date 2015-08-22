@@ -127,12 +127,13 @@ function love.load()
 	require( "classes.mob" )
 	require( "classes.hero" )
 	require( "classes.grass" )
+	require( "classes.trigger" )
 
 	TDF.Version = "Dank Version"
 	TDF.Authors = { "Arizard", "Rukai", "TheQuinn" }
 	TDF.dt = 0
 
-	TDF.Gravity = 98
+	TDF.Gravity = 98*2
 
 	TDF.GameState.registerEvents();
 	TDF.GameState.switch( TDF.States.Menu );
