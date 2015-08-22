@@ -98,3 +98,11 @@ function Mob:UnPossess( ent )
     self.possessor = nil
     self:Jump()
 end
+
+function Mob:OnKill()
+    if self.possessed then
+        if self.possessor then
+            self:UnPossess()
+        end
+    end
+end

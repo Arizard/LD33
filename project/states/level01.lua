@@ -100,13 +100,15 @@ end
 
 function state:draw( )
 
+	local cx, cy = TDF.Cam:pos()
+
 	love.graphics.setColor( 190, 245, 245 )
 	love.graphics.rectangle( "fill", 0, 0, 1024, 576 )
     love.graphics.draw(self.images.background)
-    love.graphics.draw(self.images.hill, 800, 230)
-    love.graphics.draw(self.images.hill, 400, 310)
-    love.graphics.draw(self.images.hill, 330, 310)
-    love.graphics.draw(self.images.bush)
+    love.graphics.draw(self.images.hill, 800 - cx * 0.25, 230 - cy * 2/6 )
+    love.graphics.draw(self.images.hill, 400 - cx * 0.25, 310 - cy * 1/6)
+    love.graphics.draw(self.images.hill, 330 - cx * 0.25, 310 - cy * 1/6)
+    love.graphics.tileImage( self.images.bush, -self.images.bush:getWidth() - cx * 0.75, 120-cy * 3/6, self.images.bush:getWidth()*8, self.images.bush:getHeight() )
 
 	TDF.Cam:attach()
 	--love.graphics.print("Menu State", 32, 32)

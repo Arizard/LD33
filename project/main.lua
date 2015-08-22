@@ -111,7 +111,7 @@ function love.load()
 
 	require( "states.menu" )
 	require( "states.menu2" )
-	require( "states.game" )
+	--require( "states.game" )
 	require( "states.ingame_test" )
 	require( "states.level01" )
 

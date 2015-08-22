@@ -17,6 +17,9 @@ Ghost = TDF.Class{
         self.image = love.graphics.newImage('assets/spritesheets/ghost.png')
         local g = anim8.newGrid(self.w, self.h, self.image:getWidth(), self.image:getHeight())
         self.animation = anim8.newAnimation(g('1-8',1), 0.03)
+
+        self.particles = {}
+        self.particleTimer = 0
     end
 }
 
@@ -51,7 +54,18 @@ function Ghost:draw()
     love.graphics.print( tostring( math.floor( self.x ) ).." "..tostring( math.floor( self.y ) ), self.x, self.y )
 end
 
+function Ghost:NewBubble()
+    
+end
+
 function Ghost:update(dt)
+
+    self.particleTimer = self.particleTimer + dt
+
+    if self.particleTimer > 1 then
+        self.particleTimer = 0
+        self:NewBubble()
+    end
     self.animation:update(dt)
 
     self.dx = self.dx + self.ddx * dt

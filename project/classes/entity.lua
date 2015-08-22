@@ -97,5 +97,10 @@ end
 
 function ENTITY:Kill()
 	self.alive = false
+	self:OnKill()
+end
+
+function ENTITY:OnKill()
+
 end
 
