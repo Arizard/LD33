@@ -5,8 +5,10 @@ state.Entities = {}
 state.Solids = {}
 
 local levelSolids = {
-	{ 500, 576-197, 55*2, 55*4 },
-	{ -55*10, 576-55, 55*100, 55*10 }
+	{ 500, 576-157, 55*2, 55*4 },
+	{ 500+500, 576-157, 55*2, 55*4 },
+	{ 500+500+500, 576-157, 55*8, 55*4 },
+	{ -55*10, 576-55, 55*100, 55*10 },
 
 }
 
@@ -21,7 +23,7 @@ function state:init()
 
 	end
 
-	local newHero = Hero( 0, 576-102-64, 70, 107 )
+	local newHero = Hero( 0, 576-102-64, 70-40, 107-20 )
 
 	newHero:SetCollisionTable( self.Solids )
 
@@ -30,6 +32,37 @@ function state:init()
 	local player = Ghost( 100,100, 20, 20 )
 
 	TDF.AddClassToGameState( self, player )
+
+	-- create a trigger to make the jumping do the happen
+	local jumpTrigger = Trigger( 420, 576-55-2, 16, 2 )
+
+	function jumpTrigger:RunOnEntity( ent )
+		if ent.type == "Hero" then
+			ent:Jump()
+		end
+	end
+
+	TDF.AddClassToGameState( self, jumpTrigger )
+
+	local jumpTrigger = Trigger( 420 + 500, 576-55-2, 16, 2 )
+
+	function jumpTrigger:RunOnEntity( ent )
+		if ent.type == "Hero" then
+			ent:Jump()
+		end
+	end
+
+	TDF.AddClassToGameState( self, jumpTrigger )
+
+	local jumpTrigger = Trigger( 420 + 500 + 500, 576-55-2, 16, 2 )
+
+	function jumpTrigger:RunOnEntity( ent )
+		if ent.type == "Hero" then
+			ent:Jump()
+		end
+	end
+
+	TDF.AddClassToGameState( self, jumpTrigger )
 end
 
 function state:enter()
@@ -42,6 +75,20 @@ end
 
 function state:update( dt )
 	TDF.UpdateGameStateEntities( self, dt )
+
+	-- check trigger collisions
+	for k, v in ipairs( self.Entities ) do
+		if v.type == "Trigger" then
+			for k2, v2 in ipairs( self.Entities ) do
+				if v2.type ~= "Solid" and v2.hitbox then
+					local collide, horz, vert = TDF.CheckCollide( v, v2 )
+					if collide and v2 then
+						v:RunOnEntity( v2 )
+					end
+				end
+			end
+		end
+	end
 end
 
 function state:draw( )
