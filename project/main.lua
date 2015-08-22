@@ -107,11 +107,14 @@ function love.load()
 	TDF.Timer = require( "hump.timer" )
 	TDF.Vector = require( "hump.vector" )
 	TDF.Class = require( "hump.class" )
+    anim8 = require( "anim8" )
 
 	require( "states.menu" )
 	require( "states.menu2" )
+    require( "states.game" )
 
 	require( "classes.button")
+	require( "classes.ghost")
 
 	TDF.Version = "Dank Version"
 	TDF.Authors = { "Arizard", "Rukai", "TheQuinn" }
@@ -119,7 +122,6 @@ function love.load()
 
 	TDF.GameState.registerEvents();
 	TDF.GameState.switch( TDF.States.Menu );
-	
 end
 
 function love.keypressed( key, isrepeat )
@@ -130,7 +132,12 @@ function love.keypressed( key, isrepeat )
 			TDF.GameState.switch( TDF.States.Menu )
 		end
 	end
+
+    if key == "n" then
+        TDF.GameState.switch(TDF.States.Game)
+    end
 end
+
 
 function love.draw( )
 	love.graphics.setFont( TDF.Fonts.Default )
