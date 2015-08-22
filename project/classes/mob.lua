@@ -12,10 +12,22 @@ function Mob:Initialize()
 
     self.ddx = 0
 
+    self.possessed = false
+    self.possessedTimer = 10
+    self.possessor = nil
+
+    self.walkspeed = 45
+
 end
 function Mob:draw()
-    love.graphics.setColor( 255,255,255 )
-    self.animation:draw(self.image, self.x-10, self.y-20)
+    love.graphics.setColor( self.possessed and 0 or 255,255,255 )
+    
+
+    if self.possessed and self.possessedTimer < 3 then
+        self.animation:draw(self.image, self.x-10, self.y-20, math.random(-5,5) * math.pi/180 )
+    else
+        self.animation:draw(self.image, self.x-10, self.y-20 )
+    end
 
     --love.graphics.rectangle( "fill", self.hitbox.x, self.hitbox.y, self.hitbox.w, self.hitbox.h )
     --love.graphics.print( tostring( math.floor( self.x ) ).." "..tostring( math.floor( self.y ) ), self.x, self.y )
@@ -23,6 +35,27 @@ end
 
 function Mob:Update2(dt)
     self.animation:update(dt)
+
+    if self.possessed then
+        self.possessedTimer = self.possessedTimer - dt
+
+        if self.possessor then
+            if self.possessor.x < self.x then
+                self.dx = -self.walkspeed
+            else
+                self.dx = self.walkspeed
+            end
+        end
+
+        if self.possessedTimer < 0 and self.possessor then
+            self.possessor.possessing = false
+            self.possessor.possesstarget = nil
+            self:UnPossess()
+        end
+    end
+
+    
+
 end
 
 function Mob:OnCollide( ent, vert, horz )
@@ -32,4 +65,15 @@ function Mob:OnCollide( ent, vert, horz )
 
         --print( self.dx )
     end
+end
+
+function Mob:Possess( ent )
+    self.possessed = true
+    self.possessor = ent
+end
+
+function Mob:UnPossess( ent )
+    self.possessed = false
+    self.possessor = nil
+    self.dy = -100
 end
