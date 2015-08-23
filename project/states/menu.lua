@@ -6,7 +6,7 @@ state.Entities = {}
 function state:init()
 
     --create button
-	local newButton = Button( 512 - 128, 576 * (2/3) - 96/2, 150, 90 )
+	local newButton = Button( love.graphics.getWidth()/2 - 75, 576 * (2/3) - 96/2, 150, 90 )
 	TDF.AddClassToGameState( self, newButton )
     
     --setup button

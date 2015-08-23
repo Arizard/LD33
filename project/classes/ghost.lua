@@ -112,14 +112,9 @@ function Ghost:update(dt)
     --posessing
     if self.possessing then
         local dist = math.sqrt( math.pow( self.x + 26 - self.possesstarget.x + self.possesstarget.w/2, 2) + math.pow( self.y + 32 - self.possesstarget.y + self.possesstarget.h/2, 2) ) 
-
         if dist > 400 then
             local frac = math.clamp( InverseLerp( dist, 400, 500 ), 0, 1 )
-
             local ang = math.atan2( self.possesstarget.y + self.possesstarget.h/2 - self.y + 32, self.possesstarget.x + self.possesstarget.w/2 - self.x + 26 ) * 180/math.pi
-
-            print( ang )
-
             self.dx = self.dx - math.cos( ang ) * frac * 12000 * dt
             self.dy = self.dy - math.sin( ang ) * frac * 12000 * dt
         end
@@ -139,7 +134,6 @@ function Ghost:update(dt)
     --audio
     --calculate volume of whoosh noise based on the speed ghost is traveling
     local whooshVolume = (math.abs(self.dx) + math.abs(self.dy)) / 800
-    print(whooshVolume)
     self.audio.whoosh:setVolume(whooshVolume)
 end
 
