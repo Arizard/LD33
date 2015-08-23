@@ -1,5 +1,6 @@
 ENTITY = TDF.Class{
 	init = function( self, x, y, w, h ) 
+		self.basetype = "Entity"
 		self.type = "Entity"
 		self.x, self.y, self.w, self.h = x, y, w, h
 
@@ -34,41 +35,6 @@ function ENTITY:update( dt )
 
 	self.dx = self.dx + self.ddx * dt
 	self.dy = self.dy + self.ddy * dt
-
-	for k,v in ipairs( self.solids ) do
-		if v.hitbox and v.type == "Solid" and self.alive then
-			local collide, horz, vert = TDF.CheckCollide( v, self )
-
-			if collide and vert then
-				self.dy = 0
-			end
-			if collide and horz then
-				self.lastdx = self.dx
-				self.dx = 0
-				self.x = self.x - self.dx*dt
-			end
-
-			if collide then
-				self:OnCollide( v, vert, horz )
-			end
-		end
-
-		if v.hitbox and v.type == "Trigger" and self.alive then
-			local collide, horz, vert = TDF.CheckCollide( v, self )
-
-			if collide then
-				v:RunOnEntity( self )
-			end
-		end
-
-		if v.hitbox and v.type == "Mob" and self.alive and v ~= self then
-			local collide, horz, vert = TDF.CheckCollide( v, self )
-
-			if collide then
-				self:Kill()
-			end
-		end
-	end
 
 	self.x = self.x + self.dx * dt
 	self.y = self.y + self.dy * dt

@@ -172,6 +172,52 @@ function love.update( dt )
 
 	TDF.dt = dt
 	TDF.Ticker = TDF.Ticker + dt -- number of seconds since program started
+
+	-- do collisions
+	local state = TDF.GameState.current()
+
+	if state.Entities then
+		for k2, ent in ipairs( state.Entities ) do
+			if ent.basetype == "Entity" then
+				for k,v in ipairs( ent.solids ) do
+					if v.hitbox and v.type == "Solid" and ent.alive then
+						local collide, horz, vert = TDF.CheckCollide( v, ent )
+
+						if collide and vert then
+							ent.dy = 0
+
+							--local x1,y1,x2,y2,x3,y3,x4,y4 = ent.
+						end
+						if collide and horz then
+							ent.lastdx = ent.dx
+							ent.dx = 0
+							ent.x = ent.x - ent.dx*dt
+						end
+
+						if collide then
+							ent:OnCollide( v, vert, horz )
+						end
+					end
+
+					if v.hitbox and v.type == "Trigger" and ent.alive then
+						local collide, horz, vert = TDF.CheckCollide( v, ent )
+
+						if collide then
+							v:RunOnEntity( ent )
+						end
+					end
+
+					if v.hitbox and v.type == "Mob" and ent.alive and v ~= ent then
+						local collide, horz, vert = TDF.CheckCollide( v, ent )
+
+						if collide then
+							ent:Kill()
+						end
+					end
+				end
+			end
+		end
+	end
 end
 
 
