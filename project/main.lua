@@ -138,9 +138,10 @@ function love.load()
 	TDF.GameState.registerEvents();
 	TDF.GameState.switch( TDF.States.Menu );
 
-	--TDF.currentMusic = love.audio.newSource("assets/music/Wagon Wheel.mp3")
-	--TDF.currentMusic:play()
-	--TDF.currentMusic:setVolume(0.7)
+	TDF.currentMusic = love.audio.newSource("assets/music/Winner Winner.mp3")
+	TDF.currentMusic:play()
+	TDF.currentMusic:setVolume(0.7)
+    TDF.currentMusic:setLooping(true)
 end
 
 function love.keypressed( key, isrepeat )
