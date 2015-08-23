@@ -20,6 +20,8 @@ function Hero:Initialize()
 
 	self.FancyName = "Sir "..name.." the "..adj
 
+	self.hitbox.h = self.hitbox.h - 4
+
 end
 
 function Hero:IsOnGround()

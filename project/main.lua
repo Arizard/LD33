@@ -203,7 +203,7 @@ function love.update( dt )
 							ent:OnCollide( v, vert, horz )
 
 							if y2 < y4 and not horz then
-								ent.y = y3-hb1.h-1
+								ent.y = y3-hb1.h
 							end
 						end
 					end
