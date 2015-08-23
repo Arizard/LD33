@@ -95,6 +95,9 @@ TDF.Fonts.Default = love.graphics.newFont(12)
 TDF.Ticker = 0
 
 function love.load()
+
+	math.randomseed( os.time() )
+
 	love.window.setTitle( "TDF - LD33" )
 	love.window.setMode( 1024, 576 )
 
