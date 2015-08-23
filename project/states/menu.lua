@@ -4,16 +4,21 @@ local state = TDF.States.Menu
 state.Entities = {}
 
 function state:init()
-	local newButton = Button( 512 - 128, 576 * (2/3) - 96/2, 256, 96 )
 
+    --create button
+	local newButton = Button( love.graphics.getWidth()/2 - 75, 576 * (2/3) - 96/2, 150, 90 )
+	TDF.AddClassToGameState( self, newButton )
+    
+    --setup button
 	newButton:SetText( "PLAY" )
 	newButton:SetFont( TDF.Fonts.MainLarge )
+    newButton.images.hover = love.graphics.newImage(dir .. "playButtonHover.png")
+    newButton.images.default = love.graphics.newImage(dir .. "playButtonDefault.png")
 
+    --button action
 	function newButton:DoClick()
 		TDF.GameState.switch( TDF.States.Level01 )
 	end
-
-	TDF.AddClassToGameState( self, newButton )
     
 
     local dir = "assets/images/menu/"

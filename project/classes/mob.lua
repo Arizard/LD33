@@ -7,7 +7,8 @@ function Mob:Initialize()
 
     --animation
     self.image = love.graphics.newImage('assets/spritesheets/mob.png')
-    local g = anim8.newGrid(self.w+20, self.h+20, self.image:getWidth(), self.image:getHeight())
+    --local g = anim8.newGrid(self.w+20, self.h+20, self.image:getWidth(), self.image:getHeight())
+    local g = anim8.newGrid(56, 58, self.image:getWidth(), self.image:getHeight())
     self.animation = anim8.newAnimation(g('1-9',1, '1-9',2, 1,1), 0.03)
 
     self.ddx = 0
@@ -48,7 +49,6 @@ function Mob:Jump()
     end
 end
 
-
 function Mob:Update2(dt)
     self.animation:update(dt)
 
@@ -69,8 +69,6 @@ function Mob:Update2(dt)
             self:UnPossess()
         end
     end
-
-    
 
 end
 

@@ -6,22 +6,23 @@ function Hero:Initialize()
 
 	self.dx = 100
 	self.grounded = false
+	self.hitbox.h = self.hitbox.h - 4
 
 	--animation
 	self.image = love.graphics.newImage('assets/spritesheets/knight.png')
 	local g = anim8.newGrid(self.w+40, self.h+20, self.image:getWidth(), self.image:getHeight())
 	self.animation = anim8.newAnimation(g('1-7','1-2','1-5','3-3'), 0.03)
 
+	--generate a name
 	self.FancyName = "Default Name"
-
-	-- generate a name
 	local name = TDF.Names[ math.random( #TDF.Names ) ]
 	local adj = TDF.Adjectives[ math.random( #TDF.Adjectives ) ]
-
 	self.FancyName = "Sir "..name.." the "..adj
 
-	self.hitbox.h = self.hitbox.h - 4
-
+    --load audio
+    dir = "assets/sounds/"
+    self.audio = {}
+    self.audio.death = love.audio.newSource(dir .. "death1.mp3", "static")
 end
 
 function Hero:IsOnGround()
@@ -76,4 +77,5 @@ end
 function Hero:OnKill()
 	self:Jump()
 	self.dx = 0
+    self.audio.death:play()
 end
