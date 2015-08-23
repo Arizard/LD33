@@ -86,9 +86,9 @@ TDF.Adjectives = {
 -- fonts
 
 TDF.Fonts = {}
-TDF.Fonts.MainLarge = love.graphics.newFont("assets/fonts/Kevin Eleven.ttf", 48)
-TDF.Fonts.MainMedium = love.graphics.newFont("assets/fonts/Kevin Eleven.ttf", 18)
-TDF.Fonts.MainSmall = love.graphics.newFont("assets/fonts/Kevin Eleven.ttf", 12)
+TDF.Fonts.MainLarge = love.graphics.newFont("assets/fonts/Constantine.ttf", 48)
+TDF.Fonts.MainMedium = love.graphics.newFont("assets/fonts/Constantine.ttf", 24)
+TDF.Fonts.MainSmall = love.graphics.newFont("assets/fonts/Constantine.ttf", 12)
 
 TDF.Fonts.Default = love.graphics.newFont(12)
 
