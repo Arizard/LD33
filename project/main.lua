@@ -123,6 +123,7 @@ function love.load()
 	require( "classes.hero" )
 	require( "classes.grass" )
 	require( "classes.trigger" )
+	require( "classes.point" )
 
 	TDF.Version = "Dank Version"
 	TDF.Authors = { "Arizard", "Rukai", "TheQuinn" }
@@ -183,10 +184,11 @@ function love.update( dt )
 					if v.hitbox and v.type == "Solid" and ent.alive then
 						local collide, horz, vert = TDF.CheckCollide( v, ent )
 
+						local hb1, hb2 = ent.hitbox, v.hitbox
+						local x1,y1,x2,y2,x3,y3,x4,y4 = hb1.x, hb1.y, hb1.x + hb1.w, hb1.y + hb1.h, hb2.x, hb2.y, hb2.x + hb2.w, hb2.y + hb2.h 
+
 						if collide and vert then
 							ent.dy = 0
-
-							--local x1,y1,x2,y2,x3,y3,x4,y4 = ent.
 						end
 						if collide and horz then
 							ent.lastdx = ent.dx
@@ -196,6 +198,10 @@ function love.update( dt )
 
 						if collide then
 							ent:OnCollide( v, vert, horz )
+
+							if y2 < y4 and not horz then
+								ent.y = y3-hb1.h-1
+							end
 						end
 					end
 

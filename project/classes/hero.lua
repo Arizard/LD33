@@ -12,6 +12,13 @@ function Hero:Initialize()
 	local g = anim8.newGrid(self.w+40, self.h+20, self.image:getWidth(), self.image:getHeight())
 	self.animation = anim8.newAnimation(g('1-7','1-2','1-5','3-3'), 0.03)
 
+	self.FancyName = "Default Name"
+
+	-- generate a name
+	local name = TDF.Names[ math.random( #TDF.Names ) ]
+	local adj = TDF.Adjectives[ math.random( #TDF.Adjectives ) ]
+
+	self.FancyName = "Sir "..name.." the "..adj
 
 end
 
@@ -62,4 +69,9 @@ function Hero:Update2( dt )
 	self.dx = math.clamp( self.dx, -1000, 70 )
 
 	
+end
+
+function Hero:OnKill()
+	self:Jump()
+	self.dx = 0
 end

@@ -6,7 +6,7 @@ state.Solids = {}
 
 local levelSolids = {
 	{ 500, 576-157, 55*2, 55*4 },
-	{ 500+500, 576-157, 55*2, 55*4 },
+	{ 500+500, 576-157, 55*2, 55*1 },
 	{ 500+500+500, 576-157, 55*8, 55*4 },
 	{ -55*10, 576-55, 55*100, 55*10 },
 
@@ -37,6 +37,8 @@ function state:PlaceEntities()
 
 	local newHero = Hero( 0, 576-102-64, 70-40, 107-20 )
 
+	self.Hero = newHero
+
 	newHero:SetCollisionTable( self.Entities )
 
 	TDF.AddClassToGameState( self, newHero )
@@ -65,7 +67,7 @@ function state:PlaceEntities()
 		end
 	end
 
-	--TDF.AddClassToGameState( self, jumpTrigger )
+	TDF.AddClassToGameState( self, jumpTrigger )
 
 	local jumpTrigger = Trigger( 420 + 500 + 500, 576-55-2, 16, 2 )
 
@@ -78,13 +80,19 @@ function state:PlaceEntities()
 	--TDF.AddClassToGameState( self, jumpTrigger )
 
 
-	local player = Ghost( 100, 100, 40, 40)
+	local player = Ghost( 100, 400, 40, 40)
 
 	TDF.AddClassToGameState( self, player )
 
 	player:SetCollisionTable( self.Entities )
 
 	self.player = player
+
+	self.StartPoint = Point( 0, 576-102-64 )
+	self.EndPoint = Point( 55*100, 576-102-64 )
+
+	TDF.AddClassToGameState( self, self.StartPoint )
+	TDF.AddClassToGameState( self, self.EndPoint )
 
 end
 
@@ -119,9 +127,18 @@ function state:draw( )
     love.graphics.draw(self.images.hill, 330 - cx * 0.25, 310 - cy * 1/6)
     love.graphics.tileImage( self.images.bush, -self.images.bush:getWidth() - cx * 0.75, 120-cy * 3/6, self.images.bush:getWidth()*8, self.images.bush:getHeight() )
 
+
 	TDF.Cam:attach()
 	--love.graphics.print("Menu State", 32, 32)
 	TDF.DrawGameStateEntities( self )
 
 	TDF.Cam:detach()
+
+	local bx, by, bw, bh = 64, 576-64, 1024-128, 24
+    love.graphics.setColor( 255,255,255 )
+    love.graphics.rectangle( "line", bx, by, bw, bh )
+    love.graphics.rectangle( "fill", bx, by, bw * InverseLerp( self.Hero.x, self.StartPoint.x, self.EndPoint.x ), bh )
+
+    love.graphics.setFont( TDF.Fonts.MainMedium )
+    love.graphics.print( self.Hero.FancyName, bx, by - 32 )
 end

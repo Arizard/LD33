@@ -50,8 +50,8 @@ function Ghost:draw()
     --love.graphics.rectangle( "line", self.x, self.y, self.w, self.h )
     self.animation:draw(self.image, self.x, self.y, ( self.dx/10 ) * math.pi/180)
 
-    love.graphics.rectangle( "fill", self.x, self.y, 1, 1 )
-    love.graphics.print( tostring( math.floor( self.x ) ).." "..tostring( math.floor( self.y ) ), self.x, self.y )
+    --love.graphics.rectangle( "fill", self.x, self.y, 1, 1 )
+    --love.graphics.print( tostring( math.floor( self.x ) ).." "..tostring( math.floor( self.y ) ), self.x, self.y )
 end
 
 function Ghost:NewBubble()
