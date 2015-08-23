@@ -13,7 +13,19 @@ local levelSolids = {
 }
 
 function state:init()
-	
+    self.images = {}
+    local dir = "assets/images/"
+    self.images.background = love.graphics.newImage(dir .. "background.png")
+    self.images.hill = love.graphics.newImage(dir .. "hill.png")
+    self.images.bush = love.graphics.newImage(dir .. "bush.png")
+
+    self:PlaceEntities()
+end
+
+function state:PlaceEntities()
+    TDF.ClearGameStateEntities(self)
+
+    self.Solids = {}
 	for i = 1, #levelSolids do
 		v = levelSolids[i]
 		local newSolid = Grass( v[1],v[2],v[3],v[4] )
@@ -74,11 +86,6 @@ function state:init()
 
 	self.player = player
 
-    self.images = {}
-    local dir = "assets/images/"
-    self.images.background = love.graphics.newImage(dir .. "background.png")
-    self.images.hill = love.graphics.newImage(dir .. "hill.png")
-    self.images.bush = love.graphics.newImage(dir .. "bush.png")
 end
 
 function state:enter()
@@ -95,7 +102,9 @@ end
 
 function state:update( dt )
 	TDF.UpdateGameStateEntities( self, dt )
-	
+	if love.keyboard.isDown("r") then
+        self:PlaceEntities()
+    end
 end
 
 function state:draw( )
