@@ -20,6 +20,14 @@ Ghost = TDF.Class{
 
         self.particles = {}
         self.particleTimer = 0
+
+        --load audio
+        dir = "assets/sounds/"
+        self.audio = {}
+        self.audio.whoosh = love.audio.newSource(dir .. "whoosh.mp3", "static")
+        self.audio.whoosh:play()
+        self.audio.whoosh:setVolume(0.1)
+        self.audio.whoosh:setLooping(true)
     end
 }
 
@@ -60,20 +68,12 @@ end
 
 function Ghost:update(dt)
 
-    self.particleTimer = self.particleTimer + dt
-
-    if self.particleTimer > 1 then
-        self.particleTimer = 0
-        self:NewBubble()
-    end
-    self.animation:update(dt)
-
     self.dx = self.dx + self.ddx * dt
     self.dy = self.dy + self.ddy * dt
-
     local acc = 800
     local maxspeed = 400
 
+    --controls
     if love.keyboard.isDown("right", "d") then
         self.ddx = acc
     end
@@ -103,15 +103,13 @@ function Ghost:update(dt)
     if self.ddy == 0 then
         self.dy = self.dy - (self.dy*0.999*dt*4)
     end
-
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
-
     local cx, cy = TDF.Cam:pos()
     local mx, my = (self.x + 26 - cx)*dt*2, (self.y + 32 - cy)*dt*2 
-
     self.hitbox.x, self.hitbox.y = self.x, self.y
-
+    
+    --posessing
     if self.possessing then
         local dist = math.sqrt( math.pow( self.x + 26 - self.possesstarget.x + self.possesstarget.w/2, 2) + math.pow( self.y + 32 - self.possesstarget.y + self.possesstarget.h/2, 2) ) 
 
@@ -127,15 +125,27 @@ function Ghost:update(dt)
         end
     end
     
+    --animation and camera
     TDF.Cam:move( math.pow( mx, 1 ), math.pow( my, 1 ) )
+    self.animation:update(dt)
+        
+    --particles
+    self.particleTimer = self.particleTimer + dt
+    if self.particleTimer > 1 then
+        self.particleTimer = 0
+        self:NewBubble()
+    end
 
+    --audio
+    --calculate volume of whoosh noise based on the speed ghost is traveling
+    local whooshVolume = (math.abs(self.dx) + math.abs(self.dy)) / 800
+    print(whooshVolume)
+    self.audio.whoosh:setVolume(whooshVolume)
 end
 
 function Ghost:keypressed( key, isRepeat )
     if key == " " then
-
         if self.possessing == false then
-
             local foundcollider = false
             local target = nil
             for k,v in ipairs( self.solids ) do
@@ -154,7 +164,6 @@ function Ghost:keypressed( key, isRepeat )
             end
 
         elseif self.possessing then
-
             self.possesstarget:UnPossess()
             self.possessing = false
             self.possesstarget = nil
