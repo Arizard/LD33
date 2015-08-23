@@ -86,15 +86,18 @@ TDF.Adjectives = {
 -- fonts
 
 TDF.Fonts = {}
-TDF.Fonts.MainLarge = love.graphics.newFont("assets/fonts/Kevin Eleven.ttf", 48)
-TDF.Fonts.MainMedium = love.graphics.newFont("assets/fonts/Kevin Eleven.ttf", 18)
-TDF.Fonts.MainSmall = love.graphics.newFont("assets/fonts/Kevin Eleven.ttf", 12)
+TDF.Fonts.MainLarge = love.graphics.newFont("assets/fonts/Constantine.ttf", 48)
+TDF.Fonts.MainMedium = love.graphics.newFont("assets/fonts/Constantine.ttf", 24)
+TDF.Fonts.MainSmall = love.graphics.newFont("assets/fonts/Constantine.ttf", 12)
 
 TDF.Fonts.Default = love.graphics.newFont(12)
 
 TDF.Ticker = 0
 
 function love.load()
+
+	math.randomseed( os.time() )
+
 	love.window.setTitle( "TDF - LD33" )
 	love.window.setMode( 1024, 576 )
 
@@ -201,7 +204,7 @@ function love.update( dt )
 							ent:OnCollide( v, vert, horz )
 
 							if y2 < y4 and not horz then
-								ent.y = y3-hb1.h-1
+								ent.y = y3-hb1.h
 							end
 						end
 					end
