@@ -124,6 +124,7 @@ function love.load()
 	require( "classes.grass" )
 	require( "classes.trigger" )
 	require( "classes.point" )
+	require( "classes.minotaur" )
 
 	TDF.Version = "Dank Version"
 	TDF.Authors = { "Arizard", "Rukai", "TheQuinn" }
